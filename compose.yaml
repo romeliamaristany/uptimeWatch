@@ -1,0 +1,28 @@
+
+services:
+  postgres:
+    image: postgres:17-alpine
+    container_name: uptimewatch-db
+    restart: unless-stopped
+
+    environment:
+      POSTGRES_USER: uptimewatch
+      POSTGRES_PASSWORD: dev_password
+      POSTGRES_DB: uptimewatch
+
+    ports:
+      - "127.0.0.1:5440:5432"
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - pg_isready -U uptimewatch -d uptimewatch
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
