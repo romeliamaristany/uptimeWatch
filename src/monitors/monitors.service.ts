@@ -2,71 +2,61 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateMonitorDto } from './dto/create-monitor.dto.js';
 import { UpdateMonitorDto } from './dto/update-monitor.dto.js';
 import { Monitor } from './entities/monitor.entity.js';
+import { PrismaService } from '../prisma/prisma.service.js';
 
 
 @Injectable()
 export class MonitorsService {
-  private readonly monitors: Monitor[] = [
-    {
-      id: 1,
-      name: 'GitHub API',
-      url: 'https://api.github.com',
-      intervalSeconds: 60,
-      isActive: true,
-      createdAt: new Date(),
-    },
-  ];
+  constructor(private readonly prisma: PrismaService){}
 
-  create(createMonitorDto: CreateMonitorDto): Monitor {
-    const nextId =
-      Math.max(0, ...this.monitors.map(m => m.id)) + 1;
-
-    const newMonitor: Monitor = {
-      id: nextId,
-      name: createMonitorDto.name,
-      url: createMonitorDto.url,
-      intervalSeconds: createMonitorDto.intervalSeconds,
-      isActive: true,
-      createdAt: new Date(),
-    };
-
-    this.monitors.push(newMonitor);
-
-    return newMonitor;
+  async create(createMonitorDto: CreateMonitorDto) {
+    return await this.prisma.monitor.create({
+      data:{
+        name: createMonitorDto.name,
+        url: createMonitorDto.url,
+        intervalSeconds: createMonitorDto.intervalSeconds
+      }
+    })
   }
 
-  findAll() {
-    return this.monitors;
+  async findAll() {
+    return await this.prisma.monitor.findMany();
   }
 
-  findOne(id: number): Monitor {
-    const monitor = this.monitors.find(
-      (monitor) => monitor.id === id,
-    )
+  async findOne(id: number) {
+    const monitor = await this.prisma.monitor.findUnique({
+      where: {
+        id: id
+      }
+    })
 
     if(!monitor){
       throw new NotFoundException(
         `Monitor with ID ${id} not found`,
-      )
+      );
     }
-    return monitor;
-  }
-
-  update(id: number, updateMonitorDto: UpdateMonitorDto):Monitor {
-    const monitor = this.findOne(id);
-
-    Object.assign(monitor, updateMonitorDto);
 
     return monitor;
   }
 
-  remove(id: number): void {
-    this.findOne(id);
+  async update(id: number, updateMonitorDto: UpdateMonitorDto) {
+    await this.findOne(id);
 
-    const index = this.monitors.findIndex(
-      (monitor) => monitor.id === id
-    );
+    return this.prisma.monitor.update({
+      where: {id},
+      data: {
+        name: updateMonitorDto.name,
+        url: updateMonitorDto.url,
+        intervalSeconds: updateMonitorDto.intervalSeconds
+      }
+    });
+  }
 
-    this.monitors.splice(index,1);
+  async remove(id: number) {
+    await this.findOne(id);
+
+    await this.prisma.monitor.delete({
+      where: {id}
+    })
   }
 }
