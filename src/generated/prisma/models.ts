@@ -9,4 +9,5 @@
  * 🟢 You can import this file directly.
  */
 export type * from './models/Monitor.js'
+export type * from './models/MonitorCheck.js'
 export type * from './commonInputTypes.js'

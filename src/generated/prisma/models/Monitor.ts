@@ -228,6 +228,7 @@ export type MonitorWhereInput = {
   intervalSeconds?: Prisma.IntFilter<"Monitor"> | number
   isActive?: Prisma.BoolFilter<"Monitor"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Monitor"> | Date | string
+  checks?: Prisma.MonitorCheckListRelationFilter
 }
 
 export type MonitorOrderByWithRelationInput = {
@@ -237,6 +238,7 @@ export type MonitorOrderByWithRelationInput = {
   intervalSeconds?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  checks?: Prisma.MonitorCheckOrderByRelationAggregateInput
 }
 
 export type MonitorWhereUniqueInput = Prisma.AtLeast<{
@@ -249,6 +251,7 @@ export type MonitorWhereUniqueInput = Prisma.AtLeast<{
   intervalSeconds?: Prisma.IntFilter<"Monitor"> | number
   isActive?: Prisma.BoolFilter<"Monitor"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Monitor"> | Date | string
+  checks?: Prisma.MonitorCheckListRelationFilter
 }, "id">
 
 export type MonitorOrderByWithAggregationInput = {
@@ -283,6 +286,7 @@ export type MonitorCreateInput = {
   intervalSeconds?: number
   isActive?: boolean
   createdAt?: Date | string
+  checks?: Prisma.MonitorCheckCreateNestedManyWithoutMonitorInput
 }
 
 export type MonitorUncheckedCreateInput = {
@@ -292,6 +296,7 @@ export type MonitorUncheckedCreateInput = {
   intervalSeconds?: number
   isActive?: boolean
   createdAt?: Date | string
+  checks?: Prisma.MonitorCheckUncheckedCreateNestedManyWithoutMonitorInput
 }
 
 export type MonitorUpdateInput = {
@@ -300,6 +305,7 @@ export type MonitorUpdateInput = {
   intervalSeconds?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  checks?: Prisma.MonitorCheckUpdateManyWithoutMonitorNestedInput
 }
 
 export type MonitorUncheckedUpdateInput = {
@@ -309,6 +315,7 @@ export type MonitorUncheckedUpdateInput = {
   intervalSeconds?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  checks?: Prisma.MonitorCheckUncheckedUpdateManyWithoutMonitorNestedInput
 }
 
 export type MonitorCreateManyInput = {
@@ -374,6 +381,11 @@ export type MonitorSumOrderByAggregateInput = {
   intervalSeconds?: Prisma.SortOrder
 }
 
+export type MonitorScalarRelationFilter = {
+  is?: Prisma.MonitorWhereInput
+  isNot?: Prisma.MonitorWhereInput
+}
+
 export type StringFieldUpdateOperationsInput = {
   set?: string
 }
@@ -394,6 +406,99 @@ export type DateTimeFieldUpdateOperationsInput = {
   set?: Date | string
 }
 
+export type MonitorCreateNestedOneWithoutChecksInput = {
+  create?: Prisma.XOR<Prisma.MonitorCreateWithoutChecksInput, Prisma.MonitorUncheckedCreateWithoutChecksInput>
+  connectOrCreate?: Prisma.MonitorCreateOrConnectWithoutChecksInput
+  connect?: Prisma.MonitorWhereUniqueInput
+}
+
+export type MonitorUpdateOneRequiredWithoutChecksNestedInput = {
+  create?: Prisma.XOR<Prisma.MonitorCreateWithoutChecksInput, Prisma.MonitorUncheckedCreateWithoutChecksInput>
+  connectOrCreate?: Prisma.MonitorCreateOrConnectWithoutChecksInput
+  upsert?: Prisma.MonitorUpsertWithoutChecksInput
+  connect?: Prisma.MonitorWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.MonitorUpdateToOneWithWhereWithoutChecksInput, Prisma.MonitorUpdateWithoutChecksInput>, Prisma.MonitorUncheckedUpdateWithoutChecksInput>
+}
+
+export type MonitorCreateWithoutChecksInput = {
+  name: string
+  url: string
+  intervalSeconds?: number
+  isActive?: boolean
+  createdAt?: Date | string
+}
+
+export type MonitorUncheckedCreateWithoutChecksInput = {
+  id?: number
+  name: string
+  url: string
+  intervalSeconds?: number
+  isActive?: boolean
+  createdAt?: Date | string
+}
+
+export type MonitorCreateOrConnectWithoutChecksInput = {
+  where: Prisma.MonitorWhereUniqueInput
+  create: Prisma.XOR<Prisma.MonitorCreateWithoutChecksInput, Prisma.MonitorUncheckedCreateWithoutChecksInput>
+}
+
+export type MonitorUpsertWithoutChecksInput = {
+  update: Prisma.XOR<Prisma.MonitorUpdateWithoutChecksInput, Prisma.MonitorUncheckedUpdateWithoutChecksInput>
+  create: Prisma.XOR<Prisma.MonitorCreateWithoutChecksInput, Prisma.MonitorUncheckedCreateWithoutChecksInput>
+  where?: Prisma.MonitorWhereInput
+}
+
+export type MonitorUpdateToOneWithWhereWithoutChecksInput = {
+  where?: Prisma.MonitorWhereInput
+  data: Prisma.XOR<Prisma.MonitorUpdateWithoutChecksInput, Prisma.MonitorUncheckedUpdateWithoutChecksInput>
+}
+
+export type MonitorUpdateWithoutChecksInput = {
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  url?: Prisma.StringFieldUpdateOperationsInput | string
+  intervalSeconds?: Prisma.IntFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type MonitorUncheckedUpdateWithoutChecksInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  url?: Prisma.StringFieldUpdateOperationsInput | string
+  intervalSeconds?: Prisma.IntFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+
+/**
+ * Count Type MonitorCountOutputType
+ */
+
+export type MonitorCountOutputType = {
+  checks: number
+}
+
+export type MonitorCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  checks?: boolean | MonitorCountOutputTypeCountChecksArgs
+}
+
+/**
+ * MonitorCountOutputType without action
+ */
+export type MonitorCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the MonitorCountOutputType
+   */
+  select?: Prisma.MonitorCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * MonitorCountOutputType without action
+ */
+export type MonitorCountOutputTypeCountChecksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.MonitorCheckWhereInput
+}
 
 
 export type MonitorSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -403,6 +508,8 @@ export type MonitorSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   intervalSeconds?: boolean
   isActive?: boolean
   createdAt?: boolean
+  checks?: boolean | Prisma.Monitor$checksArgs<ExtArgs>
+  _count?: boolean | Prisma.MonitorCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["monitor"]>
 
 export type MonitorSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -433,10 +540,18 @@ export type MonitorSelectScalar = {
 }
 
 export type MonitorOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "url" | "intervalSeconds" | "isActive" | "createdAt", ExtArgs["result"]["monitor"]>
+export type MonitorInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  checks?: boolean | Prisma.Monitor$checksArgs<ExtArgs>
+  _count?: boolean | Prisma.MonitorCountOutputTypeDefaultArgs<ExtArgs>
+}
+export type MonitorIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type MonitorIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
 
 export type $MonitorPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Monitor"
-  objects: {}
+  objects: {
+    checks: Prisma.$MonitorCheckPayload<ExtArgs>[]
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
     name: string
@@ -838,6 +953,7 @@ readonly fields: MonitorFieldRefs;
  */
 export interface Prisma__MonitorClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  checks<T extends Prisma.Monitor$checksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Monitor$checksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MonitorCheckPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -890,6 +1006,10 @@ export type MonitorFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.Inter
    */
   omit?: Prisma.MonitorOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MonitorInclude<ExtArgs> | null
+  /**
    * Filter, which Monitor to fetch.
    */
   where: Prisma.MonitorWhereUniqueInput
@@ -908,6 +1028,10 @@ export type MonitorFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Extension
    */
   omit?: Prisma.MonitorOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MonitorInclude<ExtArgs> | null
+  /**
    * Filter, which Monitor to fetch.
    */
   where: Prisma.MonitorWhereUniqueInput
@@ -925,6 +1049,10 @@ export type MonitorFindFirstArgs<ExtArgs extends runtime.Types.Extensions.Intern
    * Omit specific fields from the Monitor
    */
   omit?: Prisma.MonitorOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MonitorInclude<ExtArgs> | null
   /**
    * Filter, which Monitor to fetch.
    */
@@ -974,6 +1102,10 @@ export type MonitorFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extensions
    */
   omit?: Prisma.MonitorOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MonitorInclude<ExtArgs> | null
+  /**
    * Filter, which Monitor to fetch.
    */
   where?: Prisma.MonitorWhereInput
@@ -1021,6 +1153,10 @@ export type MonitorFindManyArgs<ExtArgs extends runtime.Types.Extensions.Interna
    * Omit specific fields from the Monitor
    */
   omit?: Prisma.MonitorOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MonitorInclude<ExtArgs> | null
   /**
    * Filter, which Monitors to fetch.
    */
@@ -1070,6 +1206,10 @@ export type MonitorCreateArgs<ExtArgs extends runtime.Types.Extensions.InternalA
    */
   omit?: Prisma.MonitorOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MonitorInclude<ExtArgs> | null
+  /**
    * The data needed to create a Monitor.
    */
   data: Prisma.XOR<Prisma.MonitorCreateInput, Prisma.MonitorUncheckedCreateInput>
@@ -1117,6 +1257,10 @@ export type MonitorUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalA
    * Omit specific fields from the Monitor
    */
   omit?: Prisma.MonitorOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MonitorInclude<ExtArgs> | null
   /**
    * The data needed to update a Monitor.
    */
@@ -1184,6 +1328,10 @@ export type MonitorUpsertArgs<ExtArgs extends runtime.Types.Extensions.InternalA
    */
   omit?: Prisma.MonitorOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MonitorInclude<ExtArgs> | null
+  /**
    * The filter to search for the Monitor to update in case it exists.
    */
   where: Prisma.MonitorWhereUniqueInput
@@ -1210,6 +1358,10 @@ export type MonitorDeleteArgs<ExtArgs extends runtime.Types.Extensions.InternalA
    */
   omit?: Prisma.MonitorOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MonitorInclude<ExtArgs> | null
+  /**
    * Filter which Monitor to delete.
    */
   where: Prisma.MonitorWhereUniqueInput
@@ -1230,6 +1382,30 @@ export type MonitorDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
 }
 
 /**
+ * Monitor.checks
+ */
+export type Monitor$checksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the MonitorCheck
+   */
+  select?: Prisma.MonitorCheckSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the MonitorCheck
+   */
+  omit?: Prisma.MonitorCheckOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MonitorCheckInclude<ExtArgs> | null
+  where?: Prisma.MonitorCheckWhereInput
+  orderBy?: Prisma.MonitorCheckOrderByWithRelationInput | Prisma.MonitorCheckOrderByWithRelationInput[]
+  cursor?: Prisma.MonitorCheckWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.MonitorCheckScalarFieldEnum | Prisma.MonitorCheckScalarFieldEnum[]
+}
+
+/**
  * Monitor without action
  */
 export type MonitorDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1241,4 +1417,8 @@ export type MonitorDefaultArgs<ExtArgs extends runtime.Types.Extensions.Internal
    * Omit specific fields from the Monitor
    */
   omit?: Prisma.MonitorOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MonitorInclude<ExtArgs> | null
 }

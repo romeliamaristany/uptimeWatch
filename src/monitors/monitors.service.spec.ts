@@ -17,6 +17,10 @@ describe('MonitorsService', () => {
       update: vi.fn(),
       delete: vi.fn(),
     },
+
+    monitorCheck: {
+      create: vi.fn(),
+    },
   };
 
   beforeEach(async () => {

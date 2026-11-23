@@ -12,7 +12,6 @@ datasource db {
   provider = "postgresql"
 }
 
-
 model Monitor {
   id              Int      @id @default(autoincrement())
   name            String
@@ -20,4 +19,19 @@ model Monitor {
   intervalSeconds Int      @default(60)
   isActive        Boolean  @default(true)
   createdAt       DateTime @default(now())
+
+  checks MonitorCheck[]
+}
+
+model MonitorCheck {
+  id             Int      @id @default(autoincrement())
+  monitorId      Int
+  status         String
+  statusCode     Int?
+  responseTimeMs Int
+  checkedAt      DateTime @default(now())
+
+  monitor Monitor @relation(fields: [monitorId], references: [id], onDelete: Cascade)
+
+  @@index([monitorId, checkedAt])
 }

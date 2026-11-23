@@ -51,7 +51,8 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
-  Monitor: 'Monitor'
+  Monitor: 'Monitor',
+  MonitorCheck: 'MonitorCheck'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -82,6 +83,18 @@ export const MonitorScalarFieldEnum = {
 export type MonitorScalarFieldEnum = (typeof MonitorScalarFieldEnum)[keyof typeof MonitorScalarFieldEnum]
 
 
+export const MonitorCheckScalarFieldEnum = {
+  id: 'id',
+  monitorId: 'monitorId',
+  status: 'status',
+  statusCode: 'statusCode',
+  responseTimeMs: 'responseTimeMs',
+  checkedAt: 'checkedAt'
+} as const
+
+export type MonitorCheckScalarFieldEnum = (typeof MonitorCheckScalarFieldEnum)[keyof typeof MonitorCheckScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -96,4 +109,12 @@ export const QueryMode = {
 } as const
 
 export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+export const NullsOrder = {
+  first: 'first',
+  last: 'last'
+} as const
+
+export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 

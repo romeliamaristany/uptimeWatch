@@ -67,6 +67,9 @@ export class MonitorsService {
     // 2. Registrar cuándo comienza la comprobación
     const startTime = performance.now();
 
+    let status: 'UP' | 'DOWN' = 'DOWN';
+    let statusCode: number | null = null;
+
     try {
       // 3. Realizar una petición HTTP
       const response = await fetch(monitor.url, {
@@ -75,35 +78,45 @@ export class MonitorsService {
         redirect: 'manual',
       });
 
-      // 4. Calcular el tiempo de respuesta
-      const responseTimeMs = Math.round(
-        performance.now() - startTime,
-      );
+      statusCode = response.status;
 
-      // 5. Devolver el resultado
-      return {
-        monitorId: monitor.id,
-        status: response.status >= 200 && response.status < 400
-          ? 'UP'
-          : 'DOWN',
-        statusCode: response.status,
-        responseTimeMs,
-        checkedAt: new Date(),
-      };
+      if(response.status >= 200 && response.status < 400){
+        status = 'UP';
+      }
+
     } catch {
-      // 6. Gestionar errores de conexión o timeout
-      const responseTimeMs = Math.round(
-        performance.now() - startTime,
-      );
+      // // 6. Gestionar errores de conexión o timeout
+      // const responseTimeMs = Math.round(
+      //   performance.now() - startTime,
+      // );
 
-      return {
-        monitorId: monitor.id,
-        status: 'DOWN',
-        statusCode: null,
-        responseTimeMs,
-        checkedAt: new Date(),
-      };
+      // return {
+      //   monitorId: monitor.id,
+      //   status: 'DOWN',
+      //   statusCode: null,
+      //   responseTimeMs,
+      //   checkedAt: new Date(),
+      // };
     }
+
+    //  4. Calcular el tiempo de respuesta
+    const responseTimeMs = Math.round(
+      performance.now() - startTime,
+    );
+
+    const checkedAt = new Date();
+
+    const check = await this.prisma.monitorCheck.create({
+      data:{
+        monitorId: monitor.id,
+        status,
+        statusCode,
+        responseTimeMs,
+        checkedAt,
+      }
+    })
+
+    return check;
   }
 
 }
