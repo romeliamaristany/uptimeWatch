@@ -59,4 +59,51 @@ export class MonitorsService {
       where: {id}
     })
   }
+
+  async check(id: number) {
+    // 1. Buscar el monitor en PostgreSQL
+    const monitor = await this.findOne(id);
+
+    // 2. Registrar cuándo comienza la comprobación
+    const startTime = performance.now();
+
+    try {
+      // 3. Realizar una petición HTTP
+      const response = await fetch(monitor.url, {
+        method: 'GET',
+        signal: AbortSignal.timeout(5000),
+        redirect: 'manual',
+      });
+
+      // 4. Calcular el tiempo de respuesta
+      const responseTimeMs = Math.round(
+        performance.now() - startTime,
+      );
+
+      // 5. Devolver el resultado
+      return {
+        monitorId: monitor.id,
+        status: response.status >= 200 && response.status < 400
+          ? 'UP'
+          : 'DOWN',
+        statusCode: response.status,
+        responseTimeMs,
+        checkedAt: new Date(),
+      };
+    } catch {
+      // 6. Gestionar errores de conexión o timeout
+      const responseTimeMs = Math.round(
+        performance.now() - startTime,
+      );
+
+      return {
+        monitorId: monitor.id,
+        status: 'DOWN',
+        statusCode: null,
+        responseTimeMs,
+        checkedAt: new Date(),
+      };
+    }
+  }
+
 }

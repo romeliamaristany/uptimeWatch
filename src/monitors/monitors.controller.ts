@@ -33,4 +33,10 @@ export class MonitorsController {
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.monitorsService.remove(id);
   }
+
+  @Post(':id/check')
+  @HttpCode(HttpStatus.OK)
+  check(@Param('id', ParseIntPipe) id: number){
+    return this.monitorsService.check(id);
+  }
 }
