@@ -20,6 +20,7 @@ describe('MonitorsService', () => {
 
     monitorCheck: {
       create: vi.fn(),
+      findMany: vi.fn(),
     },
   };
 
@@ -264,6 +265,44 @@ describe('MonitorsService', () => {
     ).rejects.toThrow(NotFoundException);
 
     expect(prismaMock.monitor.delete).not.toHaveBeenCalled();
+  });
+
+
+  //Get checks
+  it('should return the latest monitor checks', async () => {
+    const monitor = {
+      id: 1,
+      name: 'Google',
+      url: 'https://google.com',
+      intervalSeconds: 60,
+      isActive: true,
+      createdAt: new Date(),
+    };
+
+    const checks = [
+      {
+        id: 2,
+        monitorId: 1,
+        status: 'UP',
+        statusCode: 200,
+        responseTimeMs: 120,
+        checkedAt: new Date(),
+      },
+    ];
+
+    prismaMock.monitor.findUnique.mockResolvedValue(monitor);
+    prismaMock.monitorCheck.findMany.mockResolvedValue(checks);
+
+    const result = await service.findChecks(1);
+
+    expect(result).toEqual(checks);
+
+    expect(prismaMock.monitorCheck.findMany)
+      .toHaveBeenCalledWith({
+        where: { monitorId: 1 },
+        orderBy: { checkedAt: 'desc' },
+        take: 50,
+      });
   });
 
 

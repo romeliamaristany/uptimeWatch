@@ -119,4 +119,18 @@ export class MonitorsService {
     return check;
   }
 
+  async findChecks(id: number){
+    await this.findOne(id);
+
+    return this.prisma.monitorCheck.findMany({
+      where:{
+        id: id
+      },
+      orderBy: {
+        checkedAt: 'desc',
+      },
+      take: 50,
+    })
+  }
+
 }

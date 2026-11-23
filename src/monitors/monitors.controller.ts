@@ -39,4 +39,9 @@ export class MonitorsController {
   check(@Param('id', ParseIntPipe) id: number){
     return this.monitorsService.check(id);
   }
+
+  @Get(':id/check')
+  findCheck(@Param('id', ParseIntPipe) id:number){
+    return this.monitorsService.findChecks(id);
+  }
 }
